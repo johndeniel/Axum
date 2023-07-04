@@ -14,6 +14,7 @@
 - **section_08**: cors-middleware
 - **section_09**: shared-middleware
 - **section_10**: custom-middleware
+- **section_11**: http-statuscode
 
 ## Getting Started
 
