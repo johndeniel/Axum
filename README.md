@@ -13,10 +13,11 @@
 - **section_07**: custom-header
 - **section_08**: cors-middleware
 - **section_09**: shared-middleware
+- **section_10**: custom-middleware
 
 ## Getting Started
 
-```bash
+```toml
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
@@ -24,3 +25,4 @@ axum = { version = "0.6.18", features = ["headers"] }
 serde = { version = "1.0.164", features = ["derive"] }
 tokio = { version = "1.28.2", features = ["macros", "rt-multi-thread"] }
 tower-http = { version = "0.4.1", features = ["cors"] }
+```
