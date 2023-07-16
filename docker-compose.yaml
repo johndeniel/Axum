@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  database:
+    container_name: my-postgres-db   # Container name for the database service
+    image: postgres:latest
+    volumes:
+      - db-data:/var/lib/postgresql/data   # Volume to persist database data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql   # Initialization script for the database
+    environment:
+      POSTGRES_PASSWORD: password   # Setting the PostgreSQL password
+    ports:
+      - "5432:5432"   # Mapping host port 5432 to container port 5432 for database access
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]   # Healthcheck command to verify database availability
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
+volumes:
+  db-data:   # Named volume for persisting PostgreSQL database data
