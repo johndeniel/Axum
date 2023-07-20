@@ -17,6 +17,7 @@ This repository is dedicated to showcasing the power and versatility of the Axum
 - **section_11**: http-statuscode
 - **section_12**: returning-json
 - **section_13**: conn-sqlx
+- **section_14**: sea-orm
 
 ## Getting Started
 
@@ -27,6 +28,7 @@ This repository is dedicated to showcasing the power and versatility of the Axum
 axum = { version = "0.6.18", features = ["headers"] }
 tokio-postgres = "0.7"
 serde = { version = "1.0.164", features = ["derive"] }
+sqlx = { version = "0.7.1", features = ["runtime-tokio-rustls", "postgres"] }
 tokio = { version = "1.28.2", features = ["macros", "rt-multi-thread"] }
 tower-http = { version = "0.4.1", features = ["cors"] }
 ```
@@ -222,3 +224,148 @@ async fn main() -> Result<(), sqlx::Error> {
     Ok(())
 }
 ```
+
+<br>
+
+# SeaORM Overview
+
+SeaORM is a Rust library that provides a simple and convenient way to interact with relational databases. It aims to make database access easy and intuitive while following Rust's safe and expressive design principles.
+
+## Features
+
+### 1. Type-Safe Queries
+
+SeaORM uses the type system to ensure that your queries are valid at compile-time. This approach eliminates the possibility of runtime errors related to database queries, making your code more reliable and maintainable.
+
+### 2. Code Generation
+
+SeaORM provides a CLI tool that generates Rust code based on your database schema. This code generation simplifies the process of creating entities and queries, reducing boilerplate code and saving development time.
+
+<br>
+
+This will download and install the latest version of the `SeaORM CLI` from the crates.io repository.
+
+```bash
+cargo install sea-orm-cli
+```
+
+<br>
+
+
+The `sea-orm-cli -h` command provides general help and displays information about the available commands and options.
+
+```bash
+sea-orm-cli -h
+```
+
+<br>
+
+The `sea-orm-cli generate -h` command displays help specifically for the generate subcommand. The generate command is used to generate code for various components, such as entities and migrations.
+
+```bash
+sea-orm-cli generate -h
+```
+
+<br>
+
+The `sea-orm-cli generate entity -h` command provides help for generating entity code. Entities represent tables in the database and are central to using SeaORM.
+
+```bash
+sea-orm-cli generate entity -h
+```
+
+<br>
+
+The `sea-orm-cli generate entity -o src/database` command generates entity code and places it in the specified output directory (src/database in this case). This will create Rust files for each entity in the database, which can be later used with the SeaORM library.
+
+```bash
+sea-orm-cli generate entity -o src/database
+```
+
+<br>
+
+With this command, you'll have entity code generated for your database tables, allowing you to start using SeaORM with your application.
+
+<br>
+
+### 3. Entity-Oriented API
+
+The core concept in SeaORM is the Entity, which represents a table in the database. Entities are defined as Rust structs, and SeaORM automatically generates the necessary database schema based on these definitions. This approach keeps the codebase organized and easy to manage.
+
+### 4. Query Builder
+
+With SeaORM's query builder, you can construct complex queries in a builder pattern style. This allows you to build queries in a fluent and readable manner, making it easier to understand and modify them.
+
+### 5. Associations
+
+SeaORM supports defining relationships between entities, such as one-to-one, one-to-many, and many-to-many associations. This simplifies the process of fetching related data and ensures data integrity in your database.
+
+### 6. Transactions
+
+SeaORM allows you to work with database transactions, ensuring that multiple operations are atomic and consistent. This is crucial for maintaining data integrity and recovering from failures.
+
+### 7. Database-Agnostic
+
+SeaORM is designed to be database-agnostic, meaning it can work with various relational databases, including PostgreSQL, MySQL, SQLite, and more. This flexibility allows you to switch between databases easily without rewriting your codebase.
+
+### 8. Asynchronous Support
+
+SeaORM supports async/await, allowing you to perform asynchronous database operations, making your applications more scalable and efficient.
+
+<br>
+
+# Dotenvy (.env)
+
+The `.env` file is a configuration file commonly used in software projects to store environment-specific settings and sensitive information. It is a simple text file that contains key-value pairs in the format of `KEY=VALUE`. The `.env` file is typically located in the root directory of the project and is read by the application to load environment variables during runtime.
+
+## Purpose
+
+The primary purpose of the `.env` file is to decouple configuration settings from the codebase. It allows developers to store sensitive data (like API keys, passwords, and database credentials) outside the version control system, reducing the risk of accidentally exposing this information.
+
+## Usage
+
+1. **Create the `.env` file**: Begin by creating a new file named `.env` in the root directory of your project.
+
+2. **Add Environment Variables**: Inside the `.env` file, add the environment variables in the format of `KEY=VALUE`, one per line. For example:
+
+```.env
+DB_HOST=localhost
+DB_USER=myusername
+DB_PASSWORD=mypassword
+SECRET_KEY=mysecretkey
+```
+
+
+3. **Loading Environment Variables**: To access the environment variables in your application, you need to load them during runtime. Many programming languages and frameworks have libraries or built-in functions for loading `.env` files and setting the environment variables.
+
+   - In Node.js, you can use packages like `dotenv` to load the `.env` file.
+   - In Python, you can use `python-dotenv` to load environment variables from the `.env` file.
+   - In Ruby on Rails, the `.env` file is automatically loaded by default.
+
+4. **Accessing Environment Variables**: Once the `.env` file is loaded, you can access the environment variables in your code using the appropriate methods provided by your programming language or framework. For example:
+
+   - In Node.js:
+     ```javascript
+     const DB_HOST = process.env.DB_HOST;
+     const SECRET_KEY = process.env.SECRET_KEY;
+     ```
+
+   - In Python:
+     ```python
+     import os
+
+     db_host = os.environ.get('DB_HOST')
+     secret_key = os.environ.get('SECRET_KEY')
+     ```
+
+5. **Git Ignore**: To ensure that sensitive information in the `.env` file is not committed to version control, it is essential to add `.env` to your `.gitignore` file. This prevents accidental exposure of sensitive data to your code repository.
+
+## Security Considerations
+
+- Never commit the `.env` file to version control. Always keep it local to your development environment.
+- Limit access to the `.env` file and ensure it is not accessible to unauthorized users.
+- Do not include any comments or whitespace lines in the `.env` file, as it may lead to unexpected behavior when loading environment variables.
+
+Remember, the `.env` file is intended for development and local environments. In production or deployment environments, use the appropriate mechanism provided by your hosting service or platform to manage environment variables securely.
+
+Using `.env` files is a widely accepted practice in the software development community to manage configuration and secrets safely. However, always handle sensitive data with caution and follow security best practices to protect your application and users.
