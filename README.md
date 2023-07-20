@@ -1,6 +1,6 @@
 # Rust Axum 
 
-<div align="justify"> This repository is dedicated to showcasing the power and versatility of the Axum framework in Rust programming language. Axum is a high-performance web framework designed for building scalable and asynchronous applications. </div>
+This repository is dedicated to showcasing the power and versatility of the Axum framework in Rust programming language. Axum is a high-performance web framework designed for building scalable and asynchronous applications. This comprehensive introduction to the Axum framework is thoughtfully crafted by [Brooks Builds](https://github.com/brooks-builds/full-stack-todo-rust-course). The content within this lesson is made available under the [MIT License](https://opensource.org/licenses/mit/), reflecting our commitment to promoting open-source collaboration and knowledge sharing.
 
 ## Repository Contents
 
@@ -16,6 +16,7 @@
 - **section_10**: custom-middleware
 - **section_11**: http-statuscode
 - **section_12**: returning-json
+- **section_13**: conn-sqlx
 
 ## Getting Started
 
@@ -24,6 +25,7 @@
 
 [dependencies]
 axum = { version = "0.6.18", features = ["headers"] }
+tokio-postgres = "0.7"
 serde = { version = "1.0.164", features = ["derive"] }
 tokio = { version = "1.28.2", features = ["macros", "rt-multi-thread"] }
 tower-http = { version = "0.4.1", features = ["cors"] }
@@ -150,3 +152,73 @@ Three sample tasks are inserted into the 'tasks' table with the following detail
    - **is_default**: true
 
 These sample data entries provide an illustration of how data can be added to the tables and how they can be associated with each other using the foreign key constraint.
+
+
+<br>
+
+
+
+
+# Connecting to PostgreSQL using `sqlx` in Rust
+
+In Rust, `sqlx` is a powerful library that provides a safe and efficient way to interact with databases using SQL queries. This markdown file will guide you through the process of connecting to a SQL database using `sqlx` in a Rust project.
+
+## Prerequisites
+
+Before you start, ensure that you have the following prerequisites installed:
+
+1. Rust programming language - Visit [Rust's official website](https://www.rust-lang.org/learn/get-started) to install Rust.
+2. Cargo - The package manager for Rust that comes with the Rust installation.
+
+## Adding `sqlx` to your project
+
+To use `sqlx`, you need to add it as a dependency to your Rust project. Follow these steps:
+
+1. Open your project's `Cargo.toml` file.
+2. Under the `[dependencies]` section, add the following lines:
+
+```toml
+sqlx = { version = "0.7.1", features = ["runtime-tokio-rustls", "postgres"] }
+tokio = { version = "1.28.2", features = ["macros", "rt-multi-thread"] }
+```
+
+
+## Setting up your SQL Database
+For this example, let's assume you have a PostgreSQL database running locally. Make sure you have the database URL available, which typically looks like this:
+
+```bash
+postgres://username:password@localhost:5432/database_name
+```
+## Writing Rust Code
+Create a new Rust file, such as main.rs, in your project's source folder. We will define a simple program to connect to the database using sqlx and execute a query.
+
+```rust
+// main.rs
+
+use sqlx::postgres::PgPoolOptions; // Change this based on your database (e.g., mysql::MySqlPoolOptions for MySQL)
+use sqlx::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<(), sqlx::Error> {
+    // Replace the DATABASE_URL with your actual database URL
+    let pool = PgPoolOptions::new()
+        .max_connections(5) // Set your desired max connections count
+        .connect("postgres://username:password@localhost:5432/database_name")
+        .await?;
+
+    // Example query: select all rows from a table
+    let query_result = sqlx::query!("SELECT * FROM your_table_name")
+        .fetch_all(&pool)
+        .await?;
+
+    // Process the query result
+    for row in query_result {
+        let column_name: DataType = row.get("column_name");
+        // Do something with the data...
+    }
+
+    // Perform other database operations as needed...
+
+    Ok(())
+}
+```
