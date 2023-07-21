@@ -18,6 +18,7 @@ This repository is dedicated to showcasing the power and versatility of the Axum
 - **section_12**: returning-json
 - **section_13**: conn-sqlx
 - **section_14**: sea-orm
+- **section_15**: insert-default
 
 ## Getting Started
 
@@ -285,8 +286,6 @@ sea-orm-cli generate entity -o src/database
 <br>
 
 With this command, you'll have entity code generated for your database tables, allowing you to start using SeaORM with your application.
-
-<br>
 
 ### 3. Entity-Oriented API
 
