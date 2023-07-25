@@ -20,6 +20,7 @@ This repository is dedicated to showcasing the power and versatility of the Axum
 - **section_14**: sea-orm
 - **section_15**: insert-default
 - **section_16**: insert-w/json
+- **section_17**: query-w/id
 
 ## Getting Started
 
@@ -34,6 +35,90 @@ sqlx = { version = "0.7.1", features = ["runtime-tokio-rustls", "postgres"] }
 tokio = { version = "1.28.2", features = ["macros", "rt-multi-thread"] }
 tower-http = { version = "0.4.1", features = ["cors"] }
 ```
+<br>
+
+# JSON Web Token (JWT)
+
+<div align="justify"> JSON Web Tokens (JWT) is an open standard (RFC 7519) that defines a compact and self-contained way of securely transmitting information between parties as a JSON object. It is commonly used for authentication and authorization in web applications and APIs. JWTs are digitally signed, ensuring their integrity, and can be verified and trusted by parties that share a secret or a public/private key pair. </div>
+
+   - ## Structure
+     A JWT consists of three parts separated by periods: `header.payload.signature`
+
+   - ### Header
+     The header typically consists of two parts: the token type (JWT) and the signing algorithm used, such as HMAC SHA256 or RSA. It is JSON data encoded in Base64Url.
+     
+     <b> Example Header: </b>
+     
+     ```json
+     {
+         "alg": "HS256",
+         "typ": "JWT"
+     }
+
+     ```
+     
+   - ### Payload
+     The payload contains the claims, which are statements about an entity (user, device, etc.) and additional data. There are three types of claims: registered, public, and private claims. Registered claims include standard fields like `iss` (issuer), `exp` (expiration time), `sub` (subject), and more. Public claims are defined by the application, and private claims are custom to entities. The payload is also Base64Url encoded.
+     
+     <b> Example Payload: </b>
+     
+     ```json
+     {
+         "iss": "example.com",
+         "sub": "user123",
+         "exp": 1671713600
+     }
+
+     ```
+          
+     
+     
+   - ### Signature
+     The signature is created by combining the encoded header and payload along with a secret or private key using the specified algorithm. This signature ensures that the token hasn't been tampered with during transmission and can be verified by the recipient. It helps to maintain the token's integrity and authenticity.
+     
+     <b> Example Signature (HMAC SHA256): </b>
+     
+     ```bash
+     HMACSHA256(
+         base64UrlEncode(header) + "." + base64UrlEncode(payload),
+         secret
+     )
+
+     ```     
+     
+<br>     
+
+# JWT Flow
+
+### Step 1: Authentication:
+<div align="justify"> When a user attempts to log in, the server verifies the credentials. Upon successful authentication, the server generates a JWT and returns it to the client. </div>
+
+### Step 2: Authorization:
+<div align="justify"> The client includes the JWT in the request header for each subsequent API call. The server, before processing the request, verifies the token's signature and decodes the payload to retrieve relevant information about the user and their permissions. </div>
+
+### Step 3: Expiration:
+<div align="justify"> JWTs can have an expiration time (exp) in the payload. The server checks the token's validity by verifying if the current time is before the expiration time. If the token has expired, the server denies access. </div>
+
+### Step 4: Revocation:
+<div align="justify"> JWTs are stateless, meaning they are not stored on the server. If a user logs out or needs their access revoked for any reason, the server must maintain a separate blacklist or use short-lived tokens to handle revocation. </div>
+
+# Advantages
+
+- **Stateless:** Servers do not need to store token information, reducing database queries and scalability issues.
+
+- **Self-contained:** All the necessary information is contained within the token, reducing the need for additional database lookups.
+
+- **Easy to Use:** JWTs are widely supported, and libraries are available in multiple programming languages, making implementation straightforward.
+
+- **Secure:** Digital signatures ensure that the token data remains tamper-proof and trustworthy.
+
+# Considerations
+
+- **Token Size:** Since JWTs are self-contained, including too much information can lead to larger token sizes, affecting network performance.
+
+- **Sensitive Data:** Avoid storing sensitive information in the token as it can be decoded by anyone with access to the token.
+
+- **Expiration:** Carefully consider token expiration times to balance security and user experience.
 
 <br>
 
