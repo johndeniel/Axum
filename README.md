@@ -22,6 +22,7 @@ This repository is dedicated to showcasing the power and versatility of the Axum
 - **section_16**: insert-w/json
 - **section_17**: query-w/id
 - **section_18**: query-all
+- **section_19**: filtered-query
 
 ## Getting Started
 
