@@ -24,6 +24,7 @@ This repository is dedicated to showcasing the power and versatility of the Axum
 - **section_18**: query-all
 - **section_19**: filtered-query
 - **section_20**: atomic-update
+- **section_21**: partial-update
 
 ## Getting Started
 
