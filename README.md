@@ -27,6 +27,7 @@ This repository is dedicated to showcasing the power and versatility of the Axum
 - **section_21**: partial-update
 - **section_22**: hard-delete 
 - **section_23**: soft-delete
+- **section_24**: creating-account
 
 ## Getting Started
 
