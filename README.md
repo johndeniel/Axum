@@ -28,6 +28,7 @@ This repository is dedicated to showcasing the power and versatility of the Axum
 - **section_22**: hard-delete 
 - **section_23**: soft-delete
 - **section_24**: creating-account
+- **section_25**: hash-password
 
 ## Getting Started
 
