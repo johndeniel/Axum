@@ -4,6 +4,7 @@ This repository is dedicated to showcasing the power and versatility of the Axum
 
 ## Repository Contents
 
+- **application**: full-impl
 - **section_01**: axum-api
 - **section_02**: post-body
 - **section_03**: extract-json
